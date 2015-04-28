@@ -2,6 +2,7 @@ package yalantis.com.sidemenu.foodies.fragment;
 
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.os.Bundle;
@@ -23,11 +24,14 @@ import com.google.gson.GsonBuilder;
 import java.util.ArrayList;
 import java.util.List;
 
+import yalantis.com.sidemenu.foodies.activity.MenuListActivity;
 import yalantis.com.sidemenu.foodies.model.AppConstants;
 import yalantis.com.sidemenu.foodies.model.CityList;
 import yalantis.com.sidemenu.foodies.model.Hotel;
 import yalantis.com.sidemenu.foodies.model.HotelsList;
+import yalantis.com.sidemenu.foodies.model.HotelsMenuList;
 import yalantis.com.sidemenu.foodies.utils.GetServiceCall;
+import yalantis.com.sidemenu.foodies.utils.PrefUtils;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.sample.R;
 
@@ -38,9 +42,9 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
 
     public static final String BOOK = "Book";
 
-
+    HotelsMenuList hotelsMenuList;
     private MyAppAdapter customAdapter;
-    private ListView hotelsList;
+    private ListView hotelsListView;
     private View containerView;
     protected ImageView mImageView;
     protected int res;
@@ -51,7 +55,7 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
     public static HotelListFragment newInstance() {
         HotelListFragment contentFragment = new HotelListFragment();
         Bundle bundle = new Bundle();
-        bundle.putInt(Integer.class.getName(),android.R.drawable.screen_background_light_transparent);
+        bundle.putInt(Integer.class.getName(), android.R.drawable.screen_background_light_transparent);
         contentFragment.setArguments(bundle);
         return contentFragment;
     }
@@ -83,14 +87,15 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
                 progressDialog.dismiss();
                 HotelsList hotelsList = new GsonBuilder().create().fromJson(response, HotelsList.class);
                 hotelArrayList=hotelsList.hotelArrayList;
-                Log.e("list size", hotelArrayList.size()+"");
+                Log.e("list size", hotelArrayList.size() + "");
+                customAdapter=new MyAppAdapter(hotelArrayList,getActivity());
+                hotelsListView.setAdapter(customAdapter);
             }
 
             @Override
             public void error(VolleyError error) {
                 progressDialog.dismiss();
-                customAdapter=new MyAppAdapter(hotelArrayList,getActivity());
-                hotelsList.setAdapter(customAdapter);
+         ;
             }
         }.call();
     }
@@ -99,7 +104,7 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_hotels, container, false);
-        hotelsList= (ListView) rootView.findViewById(R.id.hotelsList);
+        hotelsListView= (ListView) rootView.findViewById(R.id.hotelsList);
         getHotelList();
         return rootView;
     }
@@ -185,8 +190,40 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
             viewHolder.mobile.setText(parkingList.get(position).PhoneNumber+"");
             viewHolder.address.setText(parkingList.get(position).StreetAddress+"");
 
+            rowView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    getHotelsMenu();
+                }
+            });
             return rowView;
         }
     }
+
+    private void getHotelsMenu() {
+
+            progressDialog=new ProgressDialog(getActivity());
+            progressDialog.setMessage("Loading...");
+            progressDialog.show();
+            new GetServiceCall(AppConstants.GET_HOTELS_MENU,GetServiceCall.TYPE_JSONOBJECT){
+
+                @Override
+                public void response(String response) {
+                    Log.e("response:", response + "");
+                    progressDialog.dismiss();
+                    hotelsMenuList = new GsonBuilder().create().fromJson(response, HotelsMenuList.class);
+                    PrefUtils.setHotelsMenu(hotelsMenuList,getActivity());
+                    Intent i=new Intent(getActivity(), MenuListActivity.class);
+                    startActivity(i);
+                }
+
+                @Override
+                public void error(VolleyError error) {
+                    progressDialog.dismiss();
+                    ;
+                }
+            }.call();
+        }
+
 }
 

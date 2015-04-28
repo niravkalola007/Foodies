@@ -1,4 +1,4 @@
-package yalantis.com.sidemenu.foodies;
+package yalantis.com.sidemenu.foodies.activity;
 
 import android.content.res.Configuration;
 import android.graphics.Color;

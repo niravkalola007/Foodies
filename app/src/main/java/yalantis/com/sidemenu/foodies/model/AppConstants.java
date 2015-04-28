@@ -18,10 +18,8 @@ public class AppConstants {
 
     public static final String BASE_URL="http://ws-srv-net.in.webmyne.com/Applications/FoodiesWS/";
     public static final String GET_CITY=BASE_URL+"Hotel.svc/json/GetCityList/1";
-    public static final String GET_HOTELS=BASE_URL+"Hotel.svc/json/GetAllHotels/1";
+    public static final String GET_HOTELS=BASE_URL+"Hotel.svc/json/GetAllHotels/5";
     public static final String IMAGE_PATH="http://ws-srv-net.in.webmyne.com/Applications/FoodBaazar/";
-
-
-
+    public static final String GET_HOTELS_MENU=BASE_URL+"Hotel.svc/json/GetHotelMenu/1";
 
 }
