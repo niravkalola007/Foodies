@@ -31,6 +31,7 @@ public class MenuItemListActivity extends ActionBarActivity {
     private ListView menuItemListView;
     private ArrayList<HotelMenuItem> hotelMenuItemArrayList;
     private MyAppAdapter myAppAdapter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,12 +44,12 @@ public class MenuItemListActivity extends ActionBarActivity {
         menuItemListView.setAdapter(myAppAdapter);
     }
 
-
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         if (toolbar != null) {
 
-            toolbar.setTitle("Menu Items List");
+            toolbar.setTitle(getIntent().getStringExtra("hotel_name"));
+            toolbar.setSubtitle(getIntent().getStringExtra("hotel_category"));
             setSupportActionBar(toolbar);
             toolbar.setNavigationIcon(R.drawable.ic_navigation_arrow_back);
             toolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -63,8 +64,8 @@ public class MenuItemListActivity extends ActionBarActivity {
     public class MyAppAdapter extends BaseAdapter {
 
         public class ViewHolder {
-            public TextView name,email,mobile,address;
-            public ImageView image;
+            public TextView name,tagline,price;
+
 
         }
 
@@ -101,32 +102,57 @@ public class MenuItemListActivity extends ActionBarActivity {
             if (rowView == null) {
 
                 LayoutInflater inflater = getLayoutInflater();
-                rowView = inflater.inflate(R.layout.item_menu_name, null);
+                rowView = inflater.inflate(R.layout.item_menu_list, null);
                 // configure view holder
                 viewHolder = new ViewHolder();
                 viewHolder.name = (TextView) rowView.findViewById(R.id.name);
-
-
-
+                viewHolder.tagline = (TextView) rowView.findViewById(R.id.tagline);
+                viewHolder.price = (TextView) rowView.findViewById(R.id.price);
                 rowView.setTag(viewHolder);
 
             } else {
                 viewHolder = (ViewHolder) convertView.getTag();
             }
+
             viewHolder.name.setText(parkingList.get(position).ItemaName+"");
-//            viewHolder.email.setText(parkingList.get(position).EmailId+"");
-//            viewHolder.mobile.setText(parkingList.get(position).PhoneNumber+"");
+            viewHolder.tagline.setText(parkingList.get(position).TagLine+"");
+            viewHolder.price.setText(getResources().getString(R.string.rupees)+" "+parkingList.get(position).Price+"");
 //            viewHolder.address.setText(parkingList.get(position).StreetAddress+"");
 
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    PrefUtils.setMenuItemDetail(parkingList.get(position),MenuItemListActivity.this);
-                    Intent intent=new Intent(MenuItemListActivity.this,MenuItemDetailActivity.class);
+                    PrefUtils.setMenuItemDetail(parkingList.get(position), MenuItemListActivity.this);
+                    Intent intent = new Intent(MenuItemListActivity.this, MenuItemDetailActivity.class);
+                    intent.putExtra("item_name",parkingList.get(position).ItemaName+"");
                     startActivity(intent);
                 }
             });
             return rowView;
         }
     }
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.menu_cart, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.action_cart) {
+            Intent intent=new Intent(MenuItemListActivity.this,CartActivity.class);
+            startActivity(intent);
+            return true;
+        }
+
+        return super.onOptionsItemSelected(item);
+    }
+
 }

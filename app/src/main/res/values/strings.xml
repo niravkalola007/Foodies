@@ -6,9 +6,11 @@
     <string name="drawer_open">Open</string>
     <string name="drawer_close">Close</string>
     <string name="title_activity_menu_list">MenuListActivity</string>
+    <string name="rupees">₹</string>
 
     <string name="hello_world">Hello world!</string>
     <string name="title_activity_menu_item_list">MenuItemListActivity</string>
     <string name="title_activity_menu_item_detail">MenuItemDetailActivity</string>
+    <string name="title_activity_cart">CartActivity</string>
 
 </resources>

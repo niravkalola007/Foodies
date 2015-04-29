@@ -19,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.VolleyError;
+import com.bumptech.glide.Glide;
 import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
@@ -30,6 +31,7 @@ import yalantis.com.sidemenu.foodies.model.CityList;
 import yalantis.com.sidemenu.foodies.model.Hotel;
 import yalantis.com.sidemenu.foodies.model.HotelsList;
 import yalantis.com.sidemenu.foodies.model.HotelsMenuList;
+import yalantis.com.sidemenu.foodies.utils.CircularImageView;
 import yalantis.com.sidemenu.foodies.utils.GetServiceCall;
 import yalantis.com.sidemenu.foodies.utils.PrefUtils;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
@@ -79,7 +81,7 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
         progressDialog=new ProgressDialog(getActivity());
         progressDialog.setMessage("Loading...");
         progressDialog.show();
-        new GetServiceCall(AppConstants.GET_HOTELS,GetServiceCall.TYPE_JSONOBJECT){
+        new GetServiceCall(AppConstants.GET_HOTELS+PrefUtils.getArea(getActivity()),GetServiceCall.TYPE_JSONOBJECT){
 
             @Override
             public void response(String response) {
@@ -135,7 +137,7 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
 
         public class ViewHolder {
             public TextView name,email,mobile,address;
-            public ImageView image;
+            public CircularImageView image;
 
         }
 
@@ -178,6 +180,7 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
                 viewHolder.email = (TextView) rowView.findViewById(R.id.email);
                 viewHolder.mobile = (TextView) rowView.findViewById(R.id.mobile);
                 viewHolder.address = (TextView) rowView.findViewById(R.id.address);
+                viewHolder.image = (CircularImageView) rowView.findViewById(R.id.hotelImage);
 
 
                 rowView.setTag(viewHolder);
@@ -189,23 +192,28 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
             viewHolder.email.setText(parkingList.get(position).EmailId+"");
             viewHolder.mobile.setText(parkingList.get(position).PhoneNumber+"");
             viewHolder.address.setText(parkingList.get(position).StreetAddress+"");
-
+            Log.e("image path:",AppConstants.IMAGE_PATH + parkingList.get(position).LogoPath+parkingList.get(position).Logo+"");
+            Glide.with(getActivity())
+                    .load(AppConstants.IMAGE_PATH + parkingList.get(position).LogoPath + parkingList.get(position).Logo)
+                    .centerCrop()
+                    .into(viewHolder.image);
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getHotelsMenu();
+                    getHotelsMenu(parkingList.get(position).HotelName.toString(),parkingList.get(position).HotelId+"");
                 }
             });
             return rowView;
         }
     }
 
-    private void getHotelsMenu() {
+    private void getHotelsMenu(final String name, String id) {
 
             progressDialog=new ProgressDialog(getActivity());
             progressDialog.setMessage("Loading...");
             progressDialog.show();
-            new GetServiceCall(AppConstants.GET_HOTELS_MENU,GetServiceCall.TYPE_JSONOBJECT){
+            id="1";
+            new GetServiceCall(AppConstants.GET_HOTELS_MENU+id,GetServiceCall.TYPE_JSONOBJECT){
 
                 @Override
                 public void response(String response) {
@@ -214,13 +222,14 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
                     hotelsMenuList = new GsonBuilder().create().fromJson(response, HotelsMenuList.class);
                     PrefUtils.setHotelsMenu(hotelsMenuList,getActivity());
                     Intent i=new Intent(getActivity(), MenuListActivity.class);
+                    i.putExtra("hotel_name",name+"");
                     startActivity(i);
                 }
 
                 @Override
                 public void error(VolleyError error) {
                     progressDialog.dismiss();
-                    ;
+
                 }
             }.call();
         }

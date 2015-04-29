@@ -10,6 +10,7 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -35,6 +36,7 @@ import yalantis.com.sidemenu.foodies.model.Area;
 import yalantis.com.sidemenu.foodies.model.City;
 import yalantis.com.sidemenu.foodies.model.CityList;
 import yalantis.com.sidemenu.foodies.utils.GetServiceCall;
+import yalantis.com.sidemenu.foodies.utils.PrefUtils;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.sample.R;
 
@@ -112,7 +114,7 @@ public class CitySelectionFragment extends Fragment implements ScreenShotable {
 
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        AreaSpinnerAdapter areaSpinnerAdapter=new AreaSpinnerAdapter(getActivity(),cityArrayList.get(etCity.getSelectedItemPosition()).areaListArrayList);
+                        AreaSpinnerAdapter areaSpinnerAdapter = new AreaSpinnerAdapter(getActivity(), cityArrayList.get(etCity.getSelectedItemPosition()).areaListArrayList);
                         etArea.setAdapter(areaSpinnerAdapter);
                     }
 
@@ -121,6 +123,18 @@ public class CitySelectionFragment extends Fragment implements ScreenShotable {
 
                     }
 
+                });
+
+                etArea.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                        PrefUtils.setArea(cityArrayList.get(etCity.getSelectedItemPosition()).areaListArrayList.get(etArea.getSelectedItemPosition()).AreaId + "", getActivity());
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
                 });
 //                cityStringList=new ArrayList<String>();
 //                for(int i=0;i<cityArrayList.size();i++){
@@ -151,6 +165,22 @@ public class CitySelectionFragment extends Fragment implements ScreenShotable {
         etCity= (Spinner) rootView.findViewById(R.id.etCity);
         etArea= (Spinner) rootView.findViewById(R.id.etArea);
         btnSubmit= (TextView) rootView.findViewById(R.id.btnSubmit);
+        btnSubmit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create new fragment and transaction
+                Fragment newFragment = HotelListFragment.newInstance();
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+// Replace whatever is in the fragment_container view with this fragment,
+// and add the transaction to the back stack if needed
+                transaction.replace(R.id.container, newFragment);
+                transaction.addToBackStack(null);
+
+// Commit the transaction
+                transaction.commit();
+            }
+        });
 //        etCityetCity.setOnClickListener(new View.OnClickListener() {
 //            @Override
 //            public void onClick(View v) {

@@ -31,5 +31,6 @@ dependencies {
     compile 'com.github.ozodrukh:CircularReveal:(latest-release)@aar'
     compile 'com.google.code.gson:gson:2.3.1'
     compile 'com.mcxiaoke.volley:library:1.0.+'
+    compile 'com.github.bumptech.glide:glide:3.5.1'
     compile project(':library')
 }

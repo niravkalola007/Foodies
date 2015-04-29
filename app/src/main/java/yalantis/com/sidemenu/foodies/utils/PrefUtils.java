@@ -11,6 +11,22 @@ import yalantis.com.sidemenu.foodies.model.HotelsMenuList;
 
 public class PrefUtils {
 
+    public static void setArea(String area, Context ctx){
+
+        SharedPreferences  preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+        SharedPreferences.Editor editor = preferences.edit();
+        editor.putString("selectedArea", area);
+        editor.commit();
+    }
+
+    public static String getArea( Context ctx){
+
+        SharedPreferences  preferences = PreferenceManager.getDefaultSharedPreferences(ctx);
+
+        String area=preferences.getString("selectedArea","");
+        return  area;
+    }
+
 
 
     public static void setHotelsMenu(HotelsMenuList currentUser, Context ctx){
