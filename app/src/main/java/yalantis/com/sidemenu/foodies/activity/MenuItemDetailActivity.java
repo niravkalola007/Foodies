@@ -29,6 +29,8 @@ import yalantis.com.sidemenu.foodies.model.AppConstants;
 import yalantis.com.sidemenu.foodies.model.City;
 import yalantis.com.sidemenu.foodies.model.FoodDiatList;
 import yalantis.com.sidemenu.foodies.model.HotelMenuItem;
+import yalantis.com.sidemenu.foodies.model.OrderItem;
+import yalantis.com.sidemenu.foodies.model.SubmitOrder;
 import yalantis.com.sidemenu.foodies.utils.PostServiceCall;
 import yalantis.com.sidemenu.foodies.utils.PrefUtils;
 import yalantis.com.sidemenu.sample.R;
@@ -96,9 +98,34 @@ public class MenuItemDetailActivity extends ActionBarActivity {
         addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Log.e("food diete id",hotelMenuItem.foodDiatListArrayList.get(spinnerFoodDietType.getSelectedItemPosition()).DietId+"");
+                Log.e("item id",hotelMenuItem.ItemId+"");
+                Log.e("item quantity",i+"");
+                Log.e("delivery area",PrefUtils.getArea(MenuItemDetailActivity.this)+"");
+                Log.e("delivery city","1");
+
+                Log.e("user id","2");
+                Log.e("order by ","2");
+                Log.e("hotel id",PrefUtils.getMenuItemDetail(MenuItemDetailActivity.this).HotelId+"");
+                Log.e("price to pay",(Integer.parseInt(hotelMenuItem.Price)*i)+"");
+                SubmitOrder submitOrder=new SubmitOrder();
+                ArrayList<OrderItem> orderItems=new ArrayList<OrderItem>();
+                orderItems.add(new OrderItem(hotelMenuItem.foodDiatListArrayList.get(spinnerFoodDietType.getSelectedItemPosition()).DietId+"",hotelMenuItem.ItemId+"",i+"",(Integer.parseInt(hotelMenuItem.Price)*i)+""));
+               if(submitOrder.orderItemArrayList !=null) {
+                   submitOrder.orderItemArrayList.add(orderItems.get(0));
+               } else {
+                   submitOrder.orderItemArrayList=new ArrayList<OrderItem>();
+                   submitOrder.orderItemArrayList.add(orderItems.get(0));
+               }
+                submitOrder.DeliveryCity="1";
+                submitOrder.Userid="2";
+                submitOrder.OrderBy="2";
+                submitOrder.HotelId=PrefUtils.getMenuItemDetail(MenuItemDetailActivity.this).HotelId+"";
+                PrefUtils.AddItemToCart(submitOrder,MenuItemDetailActivity.this);
                 Intent intent = new Intent(MenuItemDetailActivity.this, CartActivity.class);
 
                 startActivity(intent);
+
 
 //                checkOutOrdered();
             }

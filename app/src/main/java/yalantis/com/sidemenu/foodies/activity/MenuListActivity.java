@@ -40,6 +40,8 @@ public class MenuListActivity extends ActionBarActivity {
         setToolbar();
 
         hotelsMenuList=PrefUtils.getHotelsMenu(MenuListActivity.this);
+
+
         hotelsMenuArrayList=hotelsMenuList.hotelsMenuArrayList;
         menuListView= (ListView) findViewById(R.id.menuList);
         myAppAdapter=new MyAppAdapter(hotelsMenuArrayList,MenuListActivity.this);

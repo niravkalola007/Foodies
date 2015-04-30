@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 import yalantis.com.sidemenu.foodies.model.HotelMenuItem;
 import yalantis.com.sidemenu.foodies.model.HotelsMenu;
 import yalantis.com.sidemenu.foodies.model.HotelsMenuList;
+import yalantis.com.sidemenu.foodies.model.SubmitOrder;
 
 
 public class PrefUtils {
@@ -77,5 +78,19 @@ public class PrefUtils {
         HotelMenuItem currentUser = complexPreferences.getObject("hotel_menu_items_pref_value", HotelMenuItem.class);
         return currentUser;
     }
+
+
+    public static void AddItemToCart(SubmitOrder currentUser, Context ctx){
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, "cart_pref", 0);
+        complexPreferences.putObject("cart_pref_value", currentUser);
+        complexPreferences.commit();
+    }
+
+    public static SubmitOrder getCartItems(Context ctx){
+        ComplexPreferences complexPreferences = ComplexPreferences.getComplexPreferences(ctx, "cart_pref", 0);
+        SubmitOrder currentUser = complexPreferences.getObject("cart_pref_value", SubmitOrder.class);
+        return currentUser;
+    }
+
 
 }

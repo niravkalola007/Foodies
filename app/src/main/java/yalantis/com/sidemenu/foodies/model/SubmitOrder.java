@@ -9,67 +9,67 @@ import java.util.ArrayList;
  */
 public class SubmitOrder {
 
-    @SerializedName("CustomerFirstName")
+//    @SerializedName("CustomerFirstName")
     public String CustomerFirstName;
 
-    @SerializedName("CustomerLastName")
+//    @SerializedName("CustomerLastName")
     public String CustomerLastName;
 
-    @SerializedName("DeliveryArea")
+//    @SerializedName("DeliveryArea")
     public String DeliveryArea;
 
-    @SerializedName("DeliveryCity")
+//    @SerializedName("DeliveryCity")
     public String DeliveryCity;
 
-    @SerializedName("DeliveryCountry")
-    public String DeliveryCountry;
+//    @SerializedName("DeliveryCountry")
+    public String DeliveryCountry="1";
 
-    @SerializedName("DeliveryState")
-    public String DeliveryState;
+//    @SerializedName("DeliveryState")
+    public String DeliveryState="1";
 
-    @SerializedName("Userid")
+//    @SerializedName("Userid")
     public String Userid;
 
-    @SerializedName("CreatedOn")
-    public String CreatedOn;
+//    @SerializedName("CreatedOn")
+//    public String CreatedOn;
 
-    @SerializedName("DiscountPercent")
-    public String DiscountPercent;
+//    @SerializedName("DiscountPercent")
+//    public String DiscountPercent;
 
-    @SerializedName("DiscountPrice")
-    public String DiscountPrice;
+//    @SerializedName("DiscountPrice")
+//    public String DiscountPrice;
 
-    @SerializedName("HotelId")
+//    @SerializedName("HotelId")
     public String HotelId;
 
-    @SerializedName("OrderBy")
+//    @SerializedName("OrderBy")
     public String OrderBy;
 
-    @SerializedName("OrderDesc")
+//    @SerializedName("OrderDesc")
     public String OrderDesc;
 
-    @SerializedName("OrderId")
-    public String OrderId;
+//    @SerializedName("OrderId")
+//    public String OrderId;
 
-    @SerializedName("OrderStatus")
+//    @SerializedName("OrderStatus")
     public String OrderStatus;
 
-    @SerializedName("PaymentTypeId")
+//    @SerializedName("PaymentTypeId")
     public String PaymentTypeId;
 
-    @SerializedName("PriceToPay")
+//    @SerializedName("PriceToPay")
     public String PriceToPay;
 
-    @SerializedName("Tax")
+//    @SerializedName("Tax")
     public String Tax;
 
-    @SerializedName("TotalPrice")
+//    @SerializedName("TotalPrice")
     public String TotalPrice;
 
-    @SerializedName("UpdatedOn")
-    public String UpdatedOn;
+//    @SerializedName("UpdatedOn")
+//    public String UpdatedOn;
 
-    @SerializedName("lstOrderitem")
+//    @SerializedName("lstOrderitem")
     public ArrayList<OrderItem> orderItemArrayList;
 
 }

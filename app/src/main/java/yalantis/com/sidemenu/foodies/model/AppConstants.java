@@ -22,5 +22,11 @@ public class AppConstants {
     public static final String IMAGE_PATH="http://ws-srv-net.in.webmyne.com/Applications/FoodBaazar/";
     public static final String GET_HOTELS_MENU=BASE_URL+"Hotel.svc/json/GetHotelMenu/";
     public static final String CHECKOUT_ORDER=BASE_URL+"Hotel.svc/json/CheckOutOrdered";
-
+//    public enum PaymentType
+//    {
+//        Cash_On_Delivery = 1,
+//        Credit_Card = 2,
+//        Net_Banking = 3,
+//        Debit_Card = 4
+//    }
 }

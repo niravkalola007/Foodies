@@ -8,6 +8,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -21,6 +22,8 @@ import yalantis.com.sidemenu.foodies.fragment.ContentFragment5;
 import yalantis.com.sidemenu.foodies.fragment.DeliveryTypeFragment;
 import yalantis.com.sidemenu.foodies.fragment.PaymentTypeFragment;
 import yalantis.com.sidemenu.foodies.fragment.UserDetailsFragment;
+import yalantis.com.sidemenu.foodies.model.SubmitOrder;
+import yalantis.com.sidemenu.foodies.utils.PrefUtils;
 import yalantis.com.sidemenu.sample.R;
 
 public class CartActivity extends ActionBarActivity {
@@ -29,6 +32,7 @@ public class CartActivity extends ActionBarActivity {
     public  ViewPager viewPager;
     private SpringIndicator springIndicator;
     private MyPagerAdapter adapter;
+    SubmitOrder submitOrder;
 
     public void setCurrentTab(int i){
         viewPager.setCurrentItem(i);
@@ -37,6 +41,8 @@ public class CartActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        submitOrder= PrefUtils.getCartItems(CartActivity.this);
+        Log.e("hotel id",submitOrder.HotelId+"");
         setToolbar();
         viewPager = (ViewPager) findViewById(R.id.view_pager);
         springIndicator = (SpringIndicator) findViewById(R.id.indicator);

@@ -7,14 +7,19 @@ import com.google.gson.annotations.SerializedName;
  */
 public class OrderItem {
 
-    @SerializedName("FoodDietId")
+//    @SerializedName("FoodDietId")
     public String FoodDietId;
-    @SerializedName("MenuItem")
+//    @SerializedName("MenuItem")
     public String MenuItem;
-    @SerializedName("MenuItemQuantity")
+//    @SerializedName("MenuItemQuantity")
     public String MenuItemQuantity;
-    @SerializedName("OrderId")
-    public String OrderId;
-    @SerializedName("OrderItemId")
-    public String OrderItemId;
+
+    public String ItemPrice;
+
+    public OrderItem(String foodDietId, String menuItem, String menuItemQuantity, String itemPrice) {
+        FoodDietId = foodDietId;
+        MenuItem = menuItem;
+        MenuItemQuantity = menuItemQuantity;
+        ItemPrice = itemPrice;
+    }
 }
