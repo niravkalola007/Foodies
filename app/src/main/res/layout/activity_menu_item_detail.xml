@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 <ScrollView
-    android:layout_above="@+id/placeOrder"
+    android:layout_above="@+id/addToCart"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
@@ -147,7 +147,7 @@
     <TextView
         android:layout_alignParentBottom="true"
         android:layout_gravity="bottom"
-        android:id="@+id/placeOrder"
+        android:id="@+id/addToCart"
         android:textColor="#fff"
         android:textSize="22sp"
         android:text="ADD TO CART"

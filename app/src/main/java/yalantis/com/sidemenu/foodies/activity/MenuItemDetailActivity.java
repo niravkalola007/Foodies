@@ -36,7 +36,7 @@ import yalantis.com.sidemenu.sample.R;
 public class MenuItemDetailActivity extends ActionBarActivity {
     private Toolbar toolbar;
     private HotelMenuItem hotelMenuItem;
-    private TextView placeOrder,price;
+    private TextView addToCart,price;
     private ProgressDialog progressDialog;
     private JSONObject object;
     private JSONArray jsonArray;
@@ -58,7 +58,7 @@ public class MenuItemDetailActivity extends ActionBarActivity {
     }
 
     private void initView() {
-        placeOrder= (TextView) findViewById(R.id.placeOrder);
+        addToCart= (TextView) findViewById(R.id.addToCart);
         price= (TextView) findViewById(R.id.price);
         quantity= (TextView) findViewById(R.id.quantity);
         remove= (ImageView) findViewById(R.id.remove);
@@ -93,16 +93,17 @@ public class MenuItemDetailActivity extends ActionBarActivity {
         name.setText(hotelMenuItem.ItemaName);
         tagline.setText(hotelMenuItem.TagLine);
         cuisine.setText(hotelMenuItem.cuisineObject.CuisineName);
-        placeOrder.setOnClickListener(new View.OnClickListener() {
+        addToCart.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(MenuItemDetailActivity.this, CartActivity.class);
+
+                startActivity(intent);
+
 //                checkOutOrdered();
             }
         });
     }
-
-
-
 
     private void checkOutOrdered() {
         progressDialog=new ProgressDialog(MenuItemDetailActivity.this);
@@ -221,6 +222,7 @@ public class MenuItemDetailActivity extends ActionBarActivity {
             txt.setTextColor(Color.parseColor("#000000"));
             return txt;
         }
+
     }
 
     @Override
