@@ -19,6 +19,10 @@ public class HotelMenuItem {
     public int ItemId;
     @SerializedName("ItemaName")
     public String ItemaName;
+    @SerializedName("MenuFolderPath")
+    public String MenuFolderPath;
+    @SerializedName("MenuIcon")
+    public String MenuIcon;
     @SerializedName("Price")
     public String Price;
     @SerializedName("TagLine")

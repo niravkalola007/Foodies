@@ -36,6 +36,7 @@
             android:layout_weight="1"
             android:layout_height="wrap_content">
             <TextView
+                android:visibility="gone"
                 android:textStyle="bold"
                 android:id="@+id/name"
 

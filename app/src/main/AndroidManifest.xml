@@ -38,6 +38,10 @@
             android:name="yalantis.com.sidemenu.foodies.activity.CartActivity"
             android:label="@string/title_activity_cart" >
         </activity>
+        <activity
+            android:name="yalantis.com.sidemenu.foodies.activity.LoginActivity"
+            android:label="@string/title_activity_login" >
+        </activity>
     </application>
 
 </manifest>

@@ -14,10 +14,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import yalantis.com.sidemenu.foodies.model.AppConstants;
 import yalantis.com.sidemenu.foodies.model.FoodDiatList;
 import yalantis.com.sidemenu.foodies.model.HotelMenuItem;
 import yalantis.com.sidemenu.foodies.model.HotelsMenu;
@@ -65,6 +69,7 @@ public class MenuItemListActivity extends ActionBarActivity {
 
         public class ViewHolder {
             public TextView name,tagline,price;
+            ImageView image;
 
 
         }
@@ -108,6 +113,7 @@ public class MenuItemListActivity extends ActionBarActivity {
                 viewHolder.name = (TextView) rowView.findViewById(R.id.name);
                 viewHolder.tagline = (TextView) rowView.findViewById(R.id.tagline);
                 viewHolder.price = (TextView) rowView.findViewById(R.id.price);
+                viewHolder.image=(ImageView)rowView.findViewById(R.id.hotelImage);
                 rowView.setTag(viewHolder);
 
             } else {
@@ -118,7 +124,11 @@ public class MenuItemListActivity extends ActionBarActivity {
             viewHolder.tagline.setText(parkingList.get(position).TagLine+"");
             viewHolder.price.setText(getResources().getString(R.string.rupees)+" "+parkingList.get(position).Price+"");
 //            viewHolder.address.setText(parkingList.get(position).StreetAddress+"");
-
+            Glide.with(MenuItemListActivity.this)
+                    .load(AppConstants.IMAGE_PATH + parkingList.get(position).MenuFolderPath + parkingList.get(position).MenuIcon)
+                    .placeholder(R.drawable.ic_launcher)
+                    .centerCrop()
+                    .into(viewHolder.image);
             rowView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -147,8 +157,12 @@ public class MenuItemListActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_cart) {
-            Intent intent=new Intent(MenuItemListActivity.this,CartActivity.class);
-            startActivity(intent);
+            if(PrefUtils.getCartItems(MenuItemListActivity.this) != null) {
+                Intent intent = new Intent(MenuItemListActivity.this, CartActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(MenuItemListActivity.this, "Cart is Empty", Toast.LENGTH_LONG).show();
+            }
             return true;
         }
 

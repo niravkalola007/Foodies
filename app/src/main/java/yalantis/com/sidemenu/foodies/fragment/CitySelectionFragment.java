@@ -33,6 +33,7 @@ import java.util.ArrayList;
 
 import yalantis.com.sidemenu.foodies.model.AppConstants;
 import yalantis.com.sidemenu.foodies.model.Area;
+import yalantis.com.sidemenu.foodies.model.Balance;
 import yalantis.com.sidemenu.foodies.model.City;
 import yalantis.com.sidemenu.foodies.model.CityList;
 import yalantis.com.sidemenu.foodies.utils.GetServiceCall;
@@ -49,6 +50,7 @@ public class CitySelectionFragment extends Fragment implements ScreenShotable {
     private static final int NATIVE_THEME = Integer.MIN_VALUE;
     private int mTheme = -1;
     private  String mCheckedItem;
+    private TextView points;
     private ProgressDialog progressDialog;
     private ArrayList<City> cityArrayList;
 //    private ArrayList<String> cityStringList;
@@ -165,6 +167,13 @@ public class CitySelectionFragment extends Fragment implements ScreenShotable {
         etCity= (Spinner) rootView.findViewById(R.id.etCity);
         etArea= (Spinner) rootView.findViewById(R.id.etArea);
         btnSubmit= (TextView) rootView.findViewById(R.id.btnSubmit);
+        points= (TextView) rootView.findViewById(R.id.points);
+        Balance balance=PrefUtils.getBalance(getActivity());
+        if(balance !=null) {
+            points.setText("You earn "+balance.UserBal +" points");
+        } else {
+            points.setText("You earn 0 points");
+        }
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

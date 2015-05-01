@@ -12,6 +12,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class CartActivity extends ActionBarActivity {
     private Toolbar toolbar;
     public  ViewPager viewPager;
     private SpringIndicator springIndicator;
+    public TextView priceView;
     private MyPagerAdapter adapter;
     SubmitOrder submitOrder;
 
@@ -41,6 +43,8 @@ public class CartActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_cart);
+        priceView= (TextView) findViewById(R.id.price);
+
         submitOrder= PrefUtils.getCartItems(CartActivity.this);
         Log.e("hotel id",submitOrder.HotelId+"");
         setToolbar();
@@ -52,6 +56,10 @@ public class CartActivity extends ActionBarActivity {
 
         // just set viewPager
         springIndicator.setViewPager(viewPager);
+    }
+
+    public void setTotalPrice(double price){
+        priceView.setText(getResources().getString(R.string.rupees)+" "+price+"");
     }
 
     public class MyPagerAdapter extends FragmentStatePagerAdapter {

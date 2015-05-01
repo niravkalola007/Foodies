@@ -1,5 +1,6 @@
 package yalantis.com.sidemenu.foodies.activity;
 
+import android.app.ProgressDialog;
 import android.content.res.Configuration;
 import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
@@ -8,11 +9,13 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
-import android.view.Menu;
-import android.view.MenuItem;
+import android.util.Log;
 import android.view.View;
 import android.view.animation.AccelerateInterpolator;
 import android.widget.LinearLayout;
+
+import com.android.volley.VolleyError;
+import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,12 +24,17 @@ import io.codetail.animation.SupportAnimator;
 import io.codetail.animation.ViewAnimationUtils;
 import yalantis.com.sidemenu.foodies.fragment.HotelListFragment;
 import yalantis.com.sidemenu.foodies.fragment.ContentFragment4;
+import yalantis.com.sidemenu.foodies.model.AppConstants;
+import yalantis.com.sidemenu.foodies.model.Balance;
+import yalantis.com.sidemenu.foodies.model.HotelsList;
+import yalantis.com.sidemenu.foodies.utils.GetServiceCall;
+import yalantis.com.sidemenu.foodies.utils.PrefUtils;
 import yalantis.com.sidemenu.interfaces.Resourceble;
 import yalantis.com.sidemenu.interfaces.ScreenShotable;
 import yalantis.com.sidemenu.model.SlideMenuItem;
 import yalantis.com.sidemenu.sample.R;
 import yalantis.com.sidemenu.foodies.fragment.CitySelectionFragment;
-import yalantis.com.sidemenu.foodies.fragment.ContentFragment2;
+import yalantis.com.sidemenu.foodies.fragment.HistoryFragment;
 import yalantis.com.sidemenu.foodies.fragment.ContentFragment3;
 import yalantis.com.sidemenu.foodies.fragment.ContentFragment5;
 import yalantis.com.sidemenu.foodies.fragment.ContentFragment6;
@@ -39,6 +47,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     private List<SlideMenuItem> list = new ArrayList<>();
     private CitySelectionFragment contentFragment;
     private ViewAnimator viewAnimator;
+    private ProgressDialog progressDialog;
     private LinearLayout linearLayout;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,20 +71,21 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
         setActionBar();
         createMenuList();
         viewAnimator = new ViewAnimator<>(this, list, contentFragment, drawerLayout, this);
+        getBalance();
     }
 
     private void createMenuList() {
-        SlideMenuItem menuItem0 = new SlideMenuItem(CitySelectionFragment.CLOSE, R.drawable.icn_close);
+        SlideMenuItem menuItem0 = new SlideMenuItem(CitySelectionFragment.CLOSE, R.drawable.icon_close);
         list.add(menuItem0);
-        SlideMenuItem menuItem = new SlideMenuItem(CitySelectionFragment.BUILDING, R.drawable.icn_1);
+        SlideMenuItem menuItem = new SlideMenuItem(CitySelectionFragment.BUILDING, R.drawable.address);
         list.add(menuItem);
-        SlideMenuItem menuItem2 = new SlideMenuItem(HotelListFragment.BOOK, R.drawable.icn_2);
+        SlideMenuItem menuItem2 = new SlideMenuItem(HotelListFragment.BOOK, R.drawable.hotels);
         list.add(menuItem2);
-        SlideMenuItem menuItem3 = new SlideMenuItem(ContentFragment2.PAINT, R.drawable.icn_3);
+        SlideMenuItem menuItem3 = new SlideMenuItem(HistoryFragment.PAINT, R.drawable.history);
         list.add(menuItem3);
-        SlideMenuItem menuItem4 = new SlideMenuItem(ContentFragment3.CASE, R.drawable.icn_4);
+        SlideMenuItem menuItem4 = new SlideMenuItem(ContentFragment3.CASE, R.drawable.contactus);
         list.add(menuItem4);
-        SlideMenuItem menuItem5 = new SlideMenuItem(ContentFragment4.SHOP, R.drawable.icn_5);
+        SlideMenuItem menuItem5 = new SlideMenuItem(ContentFragment4.SHOP, R.drawable.rate_us);
         list.add(menuItem5);
         SlideMenuItem menuItem6 = new SlideMenuItem(ContentFragment5.PARTY, R.drawable.icn_6);
         list.add(menuItem6);
@@ -170,7 +180,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 return contentFragment;
 
             case 3:
-                ContentFragment2 contentFragment1 = ContentFragment2.newInstance();
+                HistoryFragment contentFragment1 = HistoryFragment.newInstance();
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, contentFragment1).commit();
                 return contentFragment1;
 
@@ -215,7 +225,7 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
                 return replaceFragment(screenShotable, 1);
             case HotelListFragment.BOOK:
                 return replaceFragment(screenShotable, 2);
-            case ContentFragment2.PAINT:
+            case HistoryFragment.PAINT:
                 return replaceFragment(screenShotable, 3);
             case ContentFragment3.CASE:
                 return replaceFragment(screenShotable, 4);
@@ -248,4 +258,36 @@ public class MainActivity extends ActionBarActivity implements ViewAnimator.View
     public void addViewToContainer(View view) {
         linearLayout.addView(view);
     }
+
+
+    private void getBalance(){
+      if(  PrefUtils.getLogin(MainActivity.this) !=null) {
+          progressDialog=new ProgressDialog(MainActivity.this);
+          progressDialog.setMessage("Loading...");
+          progressDialog.show();
+          new GetServiceCall(AppConstants.GET_BALANCE+PrefUtils.getLogin(MainActivity.this).OwnerId+"",GetServiceCall.TYPE_JSONOBJECT){
+
+              @Override
+              public void response(String response) {
+                  Log.e("response:", response + "");
+                  progressDialog.dismiss();
+                  Balance balance = new GsonBuilder().create().fromJson(response, Balance.class);
+                    PrefUtils.setBalance(balance,MainActivity.this);
+                  Log.e("user balance", balance.UserBal + "");
+
+              }
+
+              @Override
+              public void error(VolleyError error) {
+                  progressDialog.dismiss();
+                  ;
+              }
+          }.call();
+      }
+    }
+
+    private void getHotelList() {
+
+    }
+
 }

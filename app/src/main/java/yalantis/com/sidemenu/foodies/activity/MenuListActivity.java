@@ -16,10 +16,14 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
 
+import yalantis.com.sidemenu.foodies.model.AppConstants;
 import yalantis.com.sidemenu.foodies.model.Hotel;
 import yalantis.com.sidemenu.foodies.model.HotelsMenu;
 import yalantis.com.sidemenu.foodies.model.HotelsMenuList;
@@ -61,7 +65,7 @@ public class MenuListActivity extends ActionBarActivity {
 
                     builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
-
+                            PrefUtils.clearCart(MenuListActivity.this);
                             dialog.dismiss();
                             finish();
 
@@ -128,8 +132,13 @@ public class MenuListActivity extends ActionBarActivity {
                 // configure view holder
                 viewHolder = new ViewHolder();
                 viewHolder.name = (TextView) rowView.findViewById(R.id.name);
+                viewHolder.image= (ImageView) rowView.findViewById(R.id.hotelImage);
+                Glide.with(MenuListActivity.this)
+                        .load(AppConstants.IMAGE_PATH + parkingList.get(position).CategoryFolderPath + parkingList.get(position).CategoryIcon)
+                        .placeholder(R.drawable.ic_launcher)
+                        .centerCrop()
 
-
+                        .into(viewHolder.image);
 
                 rowView.setTag(viewHolder);
 
@@ -199,8 +208,12 @@ public class MenuListActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_cart) {
-            Intent intent=new Intent(MenuListActivity.this,CartActivity.class);
-            startActivity(intent);
+            if(PrefUtils.getCartItems(MenuListActivity.this) != null) {
+                Intent intent = new Intent(MenuListActivity.this, CartActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(MenuListActivity.this,"Cart is Empty",Toast.LENGTH_LONG).show();
+            }
             return true;
         }
 

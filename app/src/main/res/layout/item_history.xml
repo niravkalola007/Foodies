@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:padding="16dp"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:gravity="center_vertical"
+
+        android:id="@+id/orderId"
+        android:text="Id"
+        android:textSize="18sp"
+        android:textColor="#777"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center_vertical"
+
+        android:id="@+id/PriceToPay"
+        android:text="PriceToPay"
+        android:textSize="18sp"
+        android:textColor="#777"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center_vertical"
+
+        android:id="@+id/Tax"
+        android:text="tax"
+        android:textSize="18sp"
+        android:textColor="#777"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center_vertical"
+
+        android:id="@+id/TotalPrice"
+        android:text="total price"
+        android:textSize="18sp"
+        android:textColor="#777"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+
+    <TextView
+        android:gravity="center_vertical"
+
+        android:id="@+id/Status"
+        android:text="status"
+        android:textSize="18sp"
+        android:textColor="#777"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

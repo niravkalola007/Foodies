@@ -18,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -47,6 +48,7 @@ public class MenuItemDetailActivity extends ActionBarActivity {
     private TextView name,tagline,cuisine,quantity;
     private FoodDietSpinnerAdapter foodDietSpinnerAdapter;
     private ImageView remove,add;
+    private SubmitOrder submitOrder;
     int i=1;
 
     @Override
@@ -107,10 +109,14 @@ public class MenuItemDetailActivity extends ActionBarActivity {
                 Log.e("user id","2");
                 Log.e("order by ","2");
                 Log.e("hotel id",PrefUtils.getMenuItemDetail(MenuItemDetailActivity.this).HotelId+"");
-                Log.e("price to pay",(Integer.parseInt(hotelMenuItem.Price)*i)+"");
-                SubmitOrder submitOrder=new SubmitOrder();
+                Log.e("price to pay", (Integer.parseInt(hotelMenuItem.Price) * i) + "");
+                if(PrefUtils.getCartItems(MenuItemDetailActivity.this) !=null){
+                    submitOrder=PrefUtils.getCartItems(MenuItemDetailActivity.this);
+                }else {
+                    submitOrder = new SubmitOrder();
+                }
                 ArrayList<OrderItem> orderItems=new ArrayList<OrderItem>();
-                orderItems.add(new OrderItem(hotelMenuItem.foodDiatListArrayList.get(spinnerFoodDietType.getSelectedItemPosition()).DietId+"",hotelMenuItem.ItemId+"",i+"",(Integer.parseInt(hotelMenuItem.Price)*i)+""));
+                orderItems.add(new OrderItem(hotelMenuItem.foodDiatListArrayList.get(spinnerFoodDietType.getSelectedItemPosition()).DietId+"",hotelMenuItem.ItemId+"",hotelMenuItem.ItemaName+"",i+"",(Integer.parseInt(hotelMenuItem.Price)*i)+""));
                if(submitOrder.orderItemArrayList !=null) {
                    submitOrder.orderItemArrayList.add(orderItems.get(0));
                } else {
@@ -118,6 +124,10 @@ public class MenuItemDetailActivity extends ActionBarActivity {
                    submitOrder.orderItemArrayList.add(orderItems.get(0));
                }
                 submitOrder.DeliveryCity="1";
+                submitOrder.DeliveryCountry="1";
+                submitOrder.DeliveryState="1";
+                submitOrder.OrderStatus="1";
+                submitOrder.DeliveryArea=PrefUtils.getArea(MenuItemDetailActivity.this)+"";
                 submitOrder.Userid="2";
                 submitOrder.OrderBy="2";
                 submitOrder.HotelId=PrefUtils.getMenuItemDetail(MenuItemDetailActivity.this).HotelId+"";
@@ -132,62 +142,7 @@ public class MenuItemDetailActivity extends ActionBarActivity {
         });
     }
 
-    private void checkOutOrdered() {
-        progressDialog=new ProgressDialog(MenuItemDetailActivity.this);
-        progressDialog.setMessage("Loading...");
-        progressDialog.show();
 
-        object=new JSONObject();
-        jsonArray=new JSONArray();
-        innerObject=new JSONObject();
-        try {
-
-            innerObject.put("FoodDietId","1");
-            innerObject.put("MenuItem","2");
-            innerObject.put("MenuItemQuantity","1");
-//            innerObject.put("OrderId","");
-//            innerObject.put("OrderItemId","");
-            jsonArray.put(innerObject);
-            object.put("CustomerFirstName","nk");
-            object.put("CustomerLastName","Modi");
-            object.put("DeliveryArea","Address11");
-            object.put("DeliveryCity","1");
-            object.put("DeliveryCountry","1");
-            object.put("DeliveryState","1");
-            object.put("Userid","2");
-//            object.put("CreatedOn","");
-//            object.put("DiscountPercent","");
-//            object.put("DiscountPrice","");
-            object.put("HotelId","2");
-            object.put("OrderBy","2");
-            object.put("OrderDesc","spicy");
-//            object.put("OrderId","");
-            object.put("OrderStatus","1");
-            object.put("PaymentTypeId","1");
-            object.put("PriceToPay","120");
-            object.put("Tax","5");
-            object.put("TotalPrice","125");
-//            object.put("UpdatedOn","");
-            object.put("lstOrderitem",jsonArray);
-            Log.e("object:",object+"");
-        } catch (JSONException e) {
-            e.printStackTrace();
-        }
-
-        new PostServiceCall(AppConstants.CHECKOUT_ORDER,object){
-
-            @Override
-            public void response(String response) {
-                progressDialog.dismiss();
-                Log.e("response:",response+"");
-            }
-
-            @Override
-            public void error(String error) {
-                progressDialog.dismiss();
-            }
-        }.call();
-    }
 
     private void setToolbar() {
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -268,8 +223,12 @@ public class MenuItemDetailActivity extends ActionBarActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_cart) {
-            Intent intent=new Intent(MenuItemDetailActivity.this,CartActivity.class);
-            startActivity(intent);
+            if(PrefUtils.getCartItems(MenuItemDetailActivity.this) != null) {
+                Intent intent = new Intent(MenuItemDetailActivity.this, CartActivity.class);
+                startActivity(intent);
+            } else {
+                Toast.makeText(MenuItemDetailActivity.this, "Cart is Empty", Toast.LENGTH_LONG).show();
+            }
             return true;
         }
 

@@ -212,7 +212,7 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
             progressDialog=new ProgressDialog(getActivity());
             progressDialog.setMessage("Loading...");
             progressDialog.show();
-            id="1";
+
             new GetServiceCall(AppConstants.GET_HOTELS_MENU+id,GetServiceCall.TYPE_JSONOBJECT){
 
                 @Override
@@ -221,6 +221,7 @@ public class HotelListFragment extends Fragment implements ScreenShotable {
                     progressDialog.dismiss();
                     hotelsMenuList = new GsonBuilder().create().fromJson(response, HotelsMenuList.class);
                     PrefUtils.setHotelsMenu(hotelsMenuList,getActivity());
+                    PrefUtils.clearCart(getActivity());
                     Intent i=new Intent(getActivity(), MenuListActivity.class);
                     i.putExtra("hotel_name",name+"");
                     startActivity(i);

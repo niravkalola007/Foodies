@@ -57,6 +57,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/subtotal"
                     android:textColor="#494949"
                     android:textSize="20sp"
 
@@ -81,16 +82,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+
                     android:textColor="#494949"
                     android:textSize="18sp"
-                    android:text="VAT( 5% )"
+                    android:text="TAX( 5% )"
                     android:layout_weight="1"
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
                 <TextView
                     android:textColor="#494949"
                     android:textSize="20sp"
-
+                    android:id="@+id/tax"
                     android:text="Rs. 25"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content" />
@@ -148,6 +150,7 @@
                     android:layout_width="0dp"
                     android:layout_height="wrap_content" />
                 <TextView
+                    android:id="@+id/totalBottom"
                     android:textColor="#494949"
                     android:textSize="22sp"
                     android:textStyle="bold"

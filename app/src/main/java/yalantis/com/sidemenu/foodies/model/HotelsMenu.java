@@ -9,6 +9,10 @@ import java.util.ArrayList;
  */
 public class HotelsMenu {
 
+    @SerializedName("CategoryFolderPath")
+    public String CategoryFolderPath;
+    @SerializedName("CategoryIcon")
+    public String CategoryIcon;
     @SerializedName("CategoryId")
     public int CategoryId;
     @SerializedName("CategoryName")

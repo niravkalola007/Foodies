@@ -42,11 +42,14 @@ public class SubmitOrder {
 //    @SerializedName("HotelId")
     public String HotelId;
 
+    public String HotelName;
+
+
 //    @SerializedName("OrderBy")
     public String OrderBy;
 
 //    @SerializedName("OrderDesc")
-    public String OrderDesc;
+    public String OrderDesc="test";
 
 //    @SerializedName("OrderId")
 //    public String OrderId;

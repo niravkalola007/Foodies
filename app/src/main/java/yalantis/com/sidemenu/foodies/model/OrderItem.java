@@ -11,14 +11,17 @@ public class OrderItem {
     public String FoodDietId;
 //    @SerializedName("MenuItem")
     public String MenuItem;
+
+    public String MenuItemName;
 //    @SerializedName("MenuItemQuantity")
     public String MenuItemQuantity;
 
     public String ItemPrice;
 
-    public OrderItem(String foodDietId, String menuItem, String menuItemQuantity, String itemPrice) {
+    public OrderItem(String foodDietId, String menuItem, String menuItemName, String menuItemQuantity, String itemPrice) {
         FoodDietId = foodDietId;
         MenuItem = menuItem;
+        MenuItemName = menuItemName;
         MenuItemQuantity = menuItemQuantity;
         ItemPrice = itemPrice;
     }
